@@ -128,8 +128,13 @@ function makeImmutable(obj) {
  *    makeWord({ a: [0, 1], b: [2, 3], c: [4, 5] }) => 'aabbcc'
  *    makeWord({ H:[0], e: [1], l: [2, 3, 8], o: [4, 6], W:[5], r:[7], d:[9]}) => 'HelloWorld'
  */
-function makeWord(/* lettersObject */) {
-  throw new Error('Not implemented');
+function makeWord(lettersObject) {
+  return Object.keys(lettersObject)
+    .map((key) => lettersObject[key].map((i) => [[i, key]]))
+    .flat(2)
+    .sort((a, b) => a[0] - b[0])
+    .map((a) => a[1])
+    .join('');
 }
 
 /**
@@ -146,8 +151,15 @@ function makeWord(/* lettersObject */) {
  *    sellTickets([25, 25, 50]) => true
  *    sellTickets([25, 100]) => false (The seller does not have enough money to give change.)
  */
-function sellTickets(/* queue */) {
-  throw new Error('Not implemented');
+function sellTickets(queue) {
+  const seller = { bank: 0 };
+  for (let i = 0; i < queue.length; i += 1) {
+    if (queue[i] - 25 > seller.bank) {
+      return false;
+    }
+    seller.bank += 25;
+  }
+  return true;
 }
 
 /**
